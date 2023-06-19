@@ -1,0 +1,105 @@
+mysql> create database v;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> use v;
+Database changed
+mysql> create table library(b_no int,b_name varchar(20),b_pub varchar(20),b_cost integer);
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> desc library;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| b_no   | int         | YES  |     | NULL    |       |
+| b_name | varchar(20) | YES  |     | NULL    |       |
+| b_pub  | varchar(20) | YES  |     | NULL    |       |
+| b_cost | int         | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> insert into library values(1,'DBMS','deshmukh sir',200);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into library values(1,'OSA','brahamne sir',250);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into library values(2,'ADS','kotme mam',4500);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into library values(3,'SE','dhanrao sir',398);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from library;
++------+--------+--------------+--------+
+| b_no | b_name | b_pub        | b_cost |
++------+--------+--------------+--------+
+|    1 | DBMS   | deshmukh sir |    200 |
+|    1 | OSA    | brahamne sir |    250 |
+|    2 | ADS    | kotme mam    |   4500 |
+|    3 | SE     | dhanrao sir  |    398 |
++------+--------+--------------+--------+
+4 rows in set (0.00 sec)
+
+mysql> create table library_audit(ID int primary key Auto_increment,operation varchar(20),operation_time varchar(20),b_no integer,b_name varchar(20),b_pub  varchar(20),b_cost int);
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> desc library_audit;
++----------------+-------------+------+-----+---------+----------------+
+| Field          | Type        | Null | Key | Default | Extra          |
++----------------+-------------+------+-----+---------+----------------+
+| ID             | int         | NO   | PRI | NULL    | auto_increment |
+| operation      | varchar(20) | YES  |     | NULL    |                |
+| operation_time | varchar(20) | YES  |     | NULL    |                |
+| b_no           | int         | YES  |     | NULL    |                |
+| b_name         | varchar(20) | YES  |     | NULL    |                |
+| b_pub          | varchar(20) | YES  |     | NULL    |                |
+| b_cost         | int         | YES  |     | NULL    |                |
++----------------+-------------+------+-----+---------+----------------+
+7 rows in set (0.00 sec)
+
+mysql> select * from library_audit;
+Empty set (0.00 sec)
+
+mysql> delimiter //
+mysql> create trigger t1 before UPDATE on library for each row
+    -> begin
+    -> insert into library_audit values(NULL,'UPDATE',Now(),old.b_no,old.b_name,old.b_pub,old.b_cost);
+    -> end
+    -> //
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> update library set b_no=10 where b_name='DBMS';
+    -> //
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+mysql>  select * from library_audit;
+    -> //
++----+-----------+---------------------+------+--------+--------------+--------+
+| ID | operation | operation_time      | b_no | b_name | b_pub        | b_cost |
++----+-----------+---------------------+------+--------+--------------+--------+
+|  1 | UPDATE    | 2023-06-08 22:49:46 |    1 | DBMS   | deshmukh sir |    200 |
++----+-----------+---------------------+------+--------+--------------+--------+
+1 row in set (0.00 sec)
+mysql> delimiter //
+mysql> create trigger t2 before DELETE on library for each row
+    -> begin
+    -> insert into library_audit values(NULL,'DELETE',Now(),old.b_no,old.b_name,old.b_pub,old.b_cost);
+    -> end
+    -> //
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> delete from library where b_no=3;
+    -> //
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from library_audit;
+    -> //
++----+-----------+---------------------+------+--------+--------------+--------+
+| ID | operation | operation_time      | b_no | b_name | b_pub        | b_cost |
++----+-----------+---------------------+------+--------+--------------+--------+
+|  1 | UPDATE    | 2023-06-08 22:49:46 |    1 | DBMS   | deshmukh sir |    200 |
+|  2 | DELETE    | 2023-06-08 22:51:10 |    3 | SE     | dhanrao sir  |    398 |
++----+-----------+---------------------+------+--------+--------------+--------+
+2 rows in set (0.00 sec)
+
+mysql>
