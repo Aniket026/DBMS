@@ -1,0 +1,116 @@
+mysql> create database vais;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> use vais;
+Database changed
+mysql> create table library(rno int primary key,DOI date,name varchar(20),status varchar(20));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> desc library;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| rno    | int         | NO   | PRI | NULL    |       |
+| DOI    | date        | YES  |     | NULL    |       |
+| name   | varchar(20) | YES  |     | NULL    |       |
+| status | varchar(20) | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> insert into library values(1,'2022-02-01','oop','I');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into library values(2,'2022-02-02','dedc','I');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into library values(3,'2022-03-02','coa','I');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into library values(4,'2022-03-05','se','I');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into library values(5,'2022-04-05','dbms','I');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from library;
++-----+------------+------+--------+
+| rno | DOI        | name | status |
++-----+------------+------+--------+
+|   1 | 2022-02-01 | oop  | I      |
+|   2 | 2022-02-02 | dedc | I      |
+|   3 | 2022-03-02 | coa  | I      |
+|   4 | 2022-03-05 | se   | I      |
+|   5 | 2022-04-05 | dbms | I      |
++-----+------------+------+--------+
+5 rows in set (0.00 sec)
+
+mysql> create table fine(rno int,foreign key(rno) references library(rno),DOR date,amount int);
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> desc fine;
++--------+------+------+-----+---------+-------+
+| Field  | Type | Null | Key | Default | Extra |
++--------+------+------+-----+---------+-------+
+| rno    | int  | YES  | MUL | NULL    |       |
+| DOR    | date | YES  |     | NULL    |       |
+| amount | int  | YES  |     | NULL    |       |
++--------+------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> delimiter //
+mysql> create procedure calfine(r int,n varchar(20))
+    -> begin
+    -> declare no_of_days int;
+    -> declare fine_amount int;
+    -> declare date1 date;
+    -> select DOI into date1 from library where rno=r and name=n;
+    -> set no_of_days=datediff(curdate(),date1);
+    -> if(no_of_days>15 and no_of_days<30)then
+    -> set fine_amount=(no_of_days-15)*5;
+    -> end if;
+    -> if(no_of_days>30)then
+    -> set fine_amount=((no_of_days-15)-(no_of_days-30))*5+(no_of_days-30)*50;
+    -> end if;
+    -> select concat("fine is: ",fine_amount);
+    -> if(fine_amount>0)then
+    -> insert into fine values(rno,curdate(),fine_amount);
+    -> update library set status='R' where Rno=rno;
+    -> end if;
+    -> end
+    -> //
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> call calfine(2,'dedc');
+    -> //
++---------------------------------+
+| concat("fine is: ",fine_amount) |
++---------------------------------+
+| fine is: 23125                  |
++---------------------------------+
+1 row in set (0.00 sec)
+
+Query OK, 5 rows affected (0.01 sec)
+
+mysql> call calfine(1,'dedc');
+    -> //
++---------------------------------+
+| concat("fine is: ",fine_amount) |
++---------------------------------+
+| NULL                            |
++---------------------------------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> call calfine(1,'oop');
+    -> //
++---------------------------------+
+| concat("fine is: ",fine_amount) |
++---------------------------------+
+| fine is: 23175                  |
++---------------------------------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+mysql>
