@@ -1,0 +1,133 @@
+...................Assignment_02......................
+Explain commands of SQL sub-languages with example.
+......................................................
+1)DML(data manipulation language)
+ -insert
+ -update
+ -delete
+create table student(s_id int,s_name varchar(20),s_dept varchar(20));
+desc student;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| s_id   | int         | YES  |     | NULL    |       |
+| s_name | varchar(20) | YES  |     | NULL    |       |
+| s_dept | varchar(20) | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+create table teacher(t_id integer,t_name varchar(20),t_dept varchar(20));
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| t_id   | int         | YES  |     | NULL    |       |
+| t_name | varchar(20) | YES  |     | NULL    |       |
+| t_dept | varchar(20) | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+1)INSERT
+insert into student values(1,'abc','comp');
+insert into student values(2,'def','comp');
+insert into student values(3,'ghi','IT');
+insert into student values(4,'jkl','civil');
+insert into student values(5,'mno','civil');
+select * from student;
++------+--------+--------+
+| s_id | s_name | s_dept |
++------+--------+--------+
+|    1 | abc    | comp   |
+|    2 | def    | comp   |
+|    3 | ghi    | IT     |
+|    4 | jkl    | civil  |
+|    5 | mno    | civil  |
++------+--------+--------+
+2)UPDATE
+ update student set s_id=6 where s_name='abc';
+ select * from student;
++------+--------+--------+
+| s_id | s_name | s_dept |
++------+--------+--------+
+|    6 | abc    | comp   |
+|    2 | def    | comp   |
+|    3 | ghi    | IT     |
+|    4 | jkl    | civil  |
+|    5 | mno    | civil  |
++------+--------+--------+
+3)DELETE
+delete from student where s_id=6;
+select * from student;
++------+--------+--------+
+| s_id | s_name | s_dept |
++------+--------+--------+
+|    2 | def    | comp   |
+|    3 | ghi    | IT     |
+|    4 | jkl    | civil  |
+|    5 | mno    | civil  |
++------+--------+--------+
+
+2)DDL(data defination language)
+ -create
+ -drop
+ -alter
+ -truncate
+1)CREATE
+ create table employee(e_id integer,e_name varchar(20),e_sal integer);
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| e_id   | int         | YES  |     | NULL    |       |
+| e_name | varchar(20) | YES  |     | NULL    |       |
+| e_sal  | int         | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+2)ALTER
+alter table employee add(e_phno integer);
+--------+-------------+------+-----+---------+--------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| e_id   | int         | YES  |     | NULL    |       |
+| e_name | varchar(20) | YES  |     | NULL    |       |
+| e_sal  | int         | YES  |     | NULL    |       |
+| e_phno | int         | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+3)DROP
+drop table employee;
+desc employee;
+ERROR 1146 (42S02): Table 'a.employee' doesn't exist
+
+4)TRUNCATE
+select * from student;
++------+--------+--------+
+| s_id | s_name | s_dept |
++------+--------+--------+
+|    2 | def    | comp   |
+|    3 | ghi    | IT     |
+|    4 | jkl    | civil  |
+|    5 | mno    | civil  |
++------+--------+--------+
+truncate table student;
+select *from student;
+Empty set
+desc student;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| s_id   | int         | YES  |     | NULL    |       |
+| s_name | varchar(20) | YES  |     | NULL    |       |
+| s_dept | varchar(20) | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+3)DCL(data control language)
+ -grant
+ -revoke
+4)TCL(transaction control language)
+ -commit
+ -rollback
+ -save point
+5)DQL(data query language)
+ -select
+select * from student;
++------+--------+--------+
+| s_id | s_name | s_dept |
++------+--------+--------+
+|    1 | abc    | comp   |
+|    2 | def    | comp   |
+|    3 | ghi    | IT     |
+|    4 | jkl    | civil  |
+|    5 | mno    | civil  |
++------+--------+--------+
