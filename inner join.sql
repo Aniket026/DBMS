@@ -49,4 +49,90 @@ SELECT * FROM MED_HISTORY;
 +-----+----------+----------+-----+---------------------+
 
 
+mysql> create database abc;
+Query OK, 1 row affected (0.06 sec)
+
+mysql> use abc;
+Database changed
+mysql> create table employee(name varchar(20),city varchar(20));
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> create table employee_salary(name varchar(20),salary integer);
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> insert into employee values('om','pune'),('jay','nashik'),('hari','yeola')
+    -> ;
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> insert into employee_salary values('om',100000),('jay',200000),('sai',12345600);
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> desc employee;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| name  | varchar(20) | YES  |     | NULL    |       |
+| city  | varchar(20) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+2 rows in set (0.02 sec)
+
+mysql> desc employee_salary;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| name   | varchar(20) | YES  |     | NULL    |       |
+| salary | int         | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> select *from employee;
++------+--------+
+| name | city   |
++------+--------+
+| om   | pune   |
+| jay  | nashik |
+| hari | yeola  |
++------+--------+
+3 rows in set (0.00 sec)
+
+mysql> select *from employee_salary;
++------+----------+
+| name | salary   |
++------+----------+
+| om   |   100000 |
+| jay  |   200000 |
+| sai  | 12345600 |
++------+----------+
+3 rows in set (0.00 sec)
+mysql> select employee.name,employee_salary.salary from employee INNER JOIN employee_salary on employee.name=employee_salary.name;
++------+--------+
+| name | salary |
++------+--------+
+| om   | 100000 |
+| jay  | 200000 |
++------+--------+
+2 rows in set (0.00 sec)
+mysql> select employee.name,employee_salary.salary from employee LEFT OUTER
+JOIN employee_salary on employee.name=employee_salary.name;
++------+--------+
+| name | salary |
++------+--------+
+| om   | 100000 |
+| jay  | 200000 |
+| hari |   NULL |
++------+--------+
+3 rows in set (0.00 sec)
+mysql> select employee.name,employee_salary.salary from employee RIGHT OUTER
+ JOIN employee_salary on employee.name=employee_salary.name;
++------+----------+
+| name | salary   |
++------+----------+
+| om   |   100000 |
+| jay  |   200000 |
+| NULL | 12345600 |
++------+----------+
+
+
 */
