@@ -1,0 +1,41 @@
+mysql> use def;
+Database changed
+mysql> delimiter //
+mysql> create procedure addn(a int,b int)
+    -> begin
+    -> declare c int;
+    -> set c=a+b;
+    -> select concat("Addition is: ",c);
+    -> end
+    -> //
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> call addn(12,34)
+    -> ;
+    -> //
++---------------------------+
+| concat("Addition is: ",c) |
++---------------------------+
+| Addition is: 46           |
++---------------------------+
+1 row in set (0.01 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> create function fun(a int,b int) returns int
+    -> deterministic begin
+    -> declare c int;
+    -> set c=a+b;
+    -> return c;
+    -> end
+    -> //
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select fun(12,34)'addition';
+    -> //
++----------+
+| addition |
++----------+
+|       46 |
++----------+
+1 row in set (0.00 sec)
