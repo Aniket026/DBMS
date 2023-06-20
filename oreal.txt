@@ -1,0 +1,34 @@
+# INDEX : INDEX is data structuer which used for quick retrival or faster fetching of record ,index can applied on a primary key of table.
+
+Adventages :
+1]INDEX improve Query performance
+2]faster data retrival
+3]effcient storing and grouping.
+
+# Trigger:
+
+•In the context of database management System( DBMS), a trigger is a stored proceduer that is automatically executed or condition occuring in the database.
+
+Trigger is ussed  perform complex calculation or data transformation. or propoget changes to other tables. When the specified operation occurs on the associated table, the trigger is.
+
+automatically triggered and its defined actions on logic are executed.
+
+Syntsx:
+create trigger trigger_name
+{
+before /after}{insert,delete,update}
+on table_name for each row
+begin
+defination
+
+# Database Procedures :
+(sometimes referred to as Stored Procedures or Procs) are subroutines that can contain one or more SQL statements that perform a specific task. They can be used for data validation, access control, or to reduce network traffic between clients and the DBMS servers
+
+# Stored Function :
+is a defined function that is called from within an SQL statement like a regular function, and returns a single value.
+
+cursor :
+A cursor is database object that allow you to retriew and manipulate data from result returned by a database query.
+type:
+1]Implicit 2] Explicit
+
